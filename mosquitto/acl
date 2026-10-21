@@ -1,0 +1,19 @@
+# Topic ACL. Device username == nodeID, so one pattern scopes every device to its own subtree.
+# Platform (Node-RED): reads all node + hub traffic, publishes only under platform/.
+user nodered
+topic read farm/+/node/+/#
+topic read farm/+/hub/#
+topic readwrite farm/+/platform/#
+
+# Raspberry Pi hub: its own subtree, plus republishing RF readings onto node topics.
+user hub
+topic readwrite farm/+/hub/#
+topic write farm/+/node/+/#
+topic read farm/+/platform/#
+
+# Sensor nodes (esp32 node01, simulator sim01, ...): may touch only farm/<site>/node/<own username>/#
+pattern readwrite farm/+/node/%u/#
+
+# Simulator control channel
+user sim01
+topic readwrite farm/demo/sim/#
