@@ -2,7 +2,7 @@
 
 We wrote this log on 2026-10-21 from the build sessions of 2026-10-14, 2026-10-18 and 2026-10-21. The scope is everything on the Proxmox container (Node-RED, InfluxDB, Grafana and Mosquitto) and the simulator that replaces the equipment of the colleague. This log does not cover the ESP32 firmware, the Raspberry Pi hardware and the nRF24L01 radio. They belong to the equipment owner.
 
-Companion files: `README.md` (how to operate the platform), `ARCHITECTURE.md` (the design and the decisions), `config/site.json` (all numbers) and `test/` (the acceptance scenarios as executable checks). This file is the chronological account and the to-do list.
+Companion files: `README.md` (overview and quick start), `docs/OPERATING.md` (how to operate the platform), `ARCHITECTURE.md` (the design and the decisions), `config/site.json` (all numbers) and `test/` (the acceptance scenarios as executable checks). This file is the chronological account and the to-do list.
 
 ---
 
@@ -158,6 +158,6 @@ These runs and the automated tests are the material for the results section of t
 |---|---|
 | I Introduction, II Literature | the manuscript (kept outside this repo) |
 | III System design and interoperability | `ARCHITECTURE.md` sections 3 to 5 and 8, and the architecture diagram |
-| IV Methodology and implementation | this file, section 2. `ARCHITECTURE.md` sections 6, 7, 9 and 10. `README.md`. |
+| IV Methodology and implementation | this file, section 2. `ARCHITECTURE.md` sections 6, 7, 9 and 10. `docs/OPERATING.md`. |
 | V Evaluation | this file, section 3 (flood-specific results). The tests in `test/`. **The benchmarks are still to do (item 5).** |
 | VI Limitations and future work | this file, sections 4 and 5 |

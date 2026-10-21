@@ -238,7 +238,7 @@ The variables are `site` and `node`. The refresh interval is 5 s. The time zone 
 
 ## 10. Portable package and deployment
 
-**Goal: you run `git clone`, enter the values in `.env` and run one command. You get the same system on any container.** The package assumes that the target has **Node-RED, InfluxDB 2.x, Grafana and an MQTT broker that Node-RED can reach**. This container has the same four services. The package installs *into* them through their own HTTP APIs, so it works from your laptop. You need no SSH and no Docker. You do not need to know how the target installed the services. README section 9 shows the file layout.
+**Goal: you run `git clone`, enter the values in `.env` and run one command. You get the same system on any container.** The package assumes that the target has **Node-RED, InfluxDB 2.x, Grafana and an MQTT broker that Node-RED can reach**. This container has the same four services. The package installs *into* them through their own HTTP APIs, so it works from your laptop. You need no SSH and no Docker. You do not need to know how the target installed the services. `docs/OPERATING.md` section 9 shows the file layout.
 
 `scripts/deploy.mjs` does these steps in order. Each step is safe to repeat:
 
