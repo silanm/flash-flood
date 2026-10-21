@@ -1,0 +1,10 @@
+{
+  "name": "flood-platform",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test test/",
+    "build:pi": "node nodered/build-pi.js",
+    "deploy": "node scripts/deploy.mjs"
+  }
+}
