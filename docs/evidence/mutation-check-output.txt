@@ -1,0 +1,25 @@
+baseline: 45 tests pass, 0 fail
+
+CAUGHT   spike gate disabled (min_step_cm 1 -> 1000)
+          3 failing: glitches: every null/0/spike is rejected and level_f stays near truth  | sustained step is accepted on the third sample, a lone spike is not | a level step does not read as a sustained rise (slope history drops at
+CAUGHT   step guard disabled (a level jump no longer drops the slope history)
+          1 failing: a level step does not read as a sustained rise (slope history drops at
+CAUGHT   temperature correction removed
+          3 failing: slow_rise: WARNING only when the level crosses the threshold (not befo | temperature: compensation recovers the true level when air warms 25 -> | temperature: dropout holds the last good value, error codes are ignore
+CAUGHT   fail-safe removed (rejected readings may clear an alert)
+          2 failing: sensor_dead mid-WARNING: sensor fault raised, flood WARNING is HELD (n | rejected readings neither escalate nor clear
+CAUGHT   confirmation removed (escalate on the first reading)
+          2 failing: slow_rise: WARNING only when the level crosses the threshold (not befo | confirmation: two high readings are not enough, the third escalates
+CAUGHT   hysteresis removed
+          2 failing: recede: alert holds until the level is clearly below the threshold, th | hysteresis: once escalated, a level hovering just under the threshold 
+CAUGHT   fallback: no grace period (send at once)
+          10 failing: Pi silent (never seen): the alert is held for the grace period, then t | Pi covers it during the grace period: nothing is sent | Pi alerted shortly BEFORE the container: covered immediately, never he | a Pi WARNING does not cover a container CRITICAL, and a Pi alert for a | a worse alert while one is held supersedes it; only the worse one is s | resolved or acknowledged before the grace period ends: cancelled, noth | a node going stale while the Pi was still alive when it was held, but  | flap guard still applies to the container fallback | sensor alerts from the Pi cover sensor faults, not flood alerts | end to end with the simulator: flash_rise and no Pi gives exactly one 
+CAUGHT   fallback: Pi alerts never cover
+          3 failing: Pi covers it during the grace period: nothing is sent | Pi alerted shortly BEFORE the container: covered immediately, never he | sensor alerts from the Pi cover sensor faults, not flood alerts
+CAUGHT   fallback: the Pi is never declared dead
+          2 failing: Pi dead (heartbeat stops): one PI OFFLINE notice, alerts are sent at o | a node going stale while the Pi was still alive when it was held, but 
+CAUGHT   fallback: container always sends follow-ups
+          3 failing: Pi covers it during the grace period: nothing is sent | resolved or acknowledged before the grace period ends: cancelled, noth | alerts the container sent keep their follow-ups: reminder, ack, deesca
+
+restored: 45 tests pass, 0 fail
+all 10 mutations caught

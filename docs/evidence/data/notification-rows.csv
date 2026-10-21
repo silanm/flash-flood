@@ -1,0 +1,27 @@
+time_utc,time_local,node,severity,kind,status,reason,text
+2026-10-18T03:53:57.464Z,2026-10-18T10:53:57,sim01,warning,rate,sent,,"[WARNING] demo/sim01: water rising fast - level 8.0 cm, rate 1.25 cm/min"
+2026-10-18T03:54:25.48Z,2026-10-18T10:54:25,sim01,critical,rate,sent,,"[CRITICAL] demo/sim01: water rising fast - level 9.5 cm, rate 2.68 cm/min"
+2026-10-18T03:54:43.86Z,2026-10-18T10:54:43,sim01,critical,level,sent,,[ACK] demo/sim01: CRITICAL acknowledged by somchai
+2026-10-18T03:55:21.507Z,2026-10-18T10:55:21,sim01,normal,level,sent,,[NORMAL] demo/sim01: back to normal - level 6.3 cm
+2026-10-18T03:58:09.475Z,2026-10-18T10:58:09,sim01,sensor,sensor,sent,,[SENSOR FAULT] demo/sim01: no data for 92 s.
+2026-10-18T03:59:45.65Z,2026-10-18T10:59:45,sim01,sensor,sensor,sent,,[SENSOR OK] demo/sim01: readings reliable again
+2026-10-18T04:00:50.926Z,2026-10-18T11:00:50,sim01,warning,level,sent,,"[WARNING] demo/sim01: water level high - level 16.0 cm, rate n/a cm/min"
+2026-10-18T04:01:42.959Z,2026-10-18T11:01:42,sim01,sensor,sensor,sent,,[SENSOR FAULT] demo/sim01: readings unreliable. Flood alert WARNING is HELD: level is unknown.
+2026-10-18T04:02:48.003Z,2026-10-18T11:02:48,sim01,normal,level,sent,,[NORMAL] demo/sim01: back to normal - level 5.6 cm
+2026-10-18T04:03:14.017Z,2026-10-18T11:03:14,sim01,sensor,sensor,sent,,[SENSOR OK] demo/sim01: readings reliable again
+2026-10-18T05:12:14.688Z,2026-10-18T12:12:14,sim01,warning,rate,suppressed,superseded,"[WARNING] demo/sim01: water rising fast - level 8.0 cm, rate 1.19 cm/min"
+2026-10-18T05:12:50.653Z,2026-10-18T12:12:50,sim01,critical,rate,sent,fallback: Pi did not send,"[CRITICAL] demo/sim01: water rising fast - level 9.6 cm, rate 2.67 cm/min [fallback: Pi did not send]"
+2026-10-18T05:13:42.739Z,2026-10-18T12:13:42,sim01,normal,level,sent,,[NORMAL] demo/sim01: back to normal - level 5.8 cm
+2026-10-18T05:14:48.882Z,2026-10-18T12:14:48,sim01,warning,rate,suppressed,covered by Pi,"[WARNING] demo/sim01: water rising fast - level 8.0 cm, rate 1.18 cm/min"
+2026-10-18T05:14:48.882Z,2026-10-18T12:14:48,sim01,warning,hub,suppressed,sent by the Pi,[HUB WARNING] demo/sim01: raised by the Pi hub - level 8.4 cm
+2026-10-18T05:15:14.892Z,2026-10-18T12:15:14,sim01,critical,hub,suppressed,sent by the Pi,[HUB CRITICAL] demo/sim01: raised by the Pi hub - level 9.8 cm
+2026-10-18T05:15:14.892Z,2026-10-18T12:15:14,sim01,critical,rate,suppressed,covered by Pi,"[CRITICAL] demo/sim01: water rising fast - level 9.4 cm, rate 2.64 cm/min"
+2026-10-18T05:16:50.68Z,2026-10-18T12:16:50,hub,hub,hub,sent,,[PI OFFLINE] demo: no message from the Pi hub for 96 s. The container now sends notifications itself.
+2026-10-18T05:16:54.83Z,2026-10-18T12:16:54,sim01,normal,level,suppressed,Pi owns this alert,[NORMAL] demo/sim01: back to normal - level 6.0 cm
+2026-10-18T05:17:10.683Z,2026-10-18T12:17:10,hub,hub,hub,sent,,[PI OK] demo: the Pi hub is back
+2026-10-18T05:18:40.694Z,2026-10-18T12:18:40,hub,hub,hub,sent,,[PI OFFLINE] demo: no message from the Pi hub for 96 s. The container now sends notifications itself.
+2026-10-18T05:18:40.883Z,2026-10-18T12:18:40,sim01,warning,rate,sent,Pi offline,"[WARNING] demo/sim01: water rising fast - level 7.8 cm, rate 1.18 cm/min [Pi offline]"
+2026-10-18T05:19:20.699Z,2026-10-18T12:19:20,hub,hub,hub,sent,,[PI OK] demo: the Pi hub is back
+2026-10-18T05:19:50.703Z,2026-10-18T12:19:50,sim01,critical,rate,sent,fallback: Pi did not send,"[CRITICAL] demo/sim01: water rising fast - level 9.7 cm, rate 2.69 cm/min [fallback: Pi did not send]"
+2026-10-18T05:20:00.924Z,2026-10-18T12:20:00,sim01,normal,level,sent,,[NORMAL] demo/sim01: back to normal - level 6.1 cm
+2026-10-18T05:20:50.711Z,2026-10-18T12:20:50,hub,hub,hub,sent,,[PI OFFLINE] demo: no message from the Pi hub for 99 s. The container now sends notifications itself.
