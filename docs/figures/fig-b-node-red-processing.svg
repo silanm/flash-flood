@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="544" viewBox="0 0 680 544" role="img"><title>What Node-RED does to one reading</title><desc>Node-RED checks and de-duplicates, corrects for temperature, runs plausibility checks, then smooths and measures accepted readings. Rejected readings keep their reason. Every reading except duplicates is written to InfluxDB.</desc>
+<style>
+text{font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;fill:#2C2C2A}
+.th{font-size:14px;font-weight:500}.ts{font-size:12px;fill:#5F5E5A}
+.arr{fill:none;stroke:#5F5E5A;stroke-width:1.5}
+.dash{stroke-dasharray:5 4}
+.box rect{fill:#FFFFFF;stroke:#888780}
+.c-gray rect{fill:#F1EFE8;stroke:#5F5E5A}.c-gray .th{fill:#444441}.c-gray .ts{fill:#5F5E5A}
+.c-teal rect{fill:#E1F5EE;stroke:#0F6E56}.c-teal .th{fill:#085041}.c-teal .ts{fill:#0F6E56}
+.c-purple rect{fill:#EEEDFE;stroke:#534AB7}.c-purple .th{fill:#3C3489}.c-purple .ts{fill:#534AB7}
+.c-coral rect{fill:#FAECE7;stroke:#993C1D}.c-coral .th{fill:#712B13}.c-coral .ts{fill:#993C1D}
+.c-green rect{fill:#EAF3DE;stroke:#3B6D11}.c-green .th{fill:#27500A}.c-green .ts{fill:#3B6D11}
+.c-amber rect{fill:#FAEEDA;stroke:#854F0B}.c-amber .th{fill:#633806}.c-amber .ts{fill:#854F0B}
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="544" fill="#FFFFFF"/>
+<g class="c-teal"><rect x="60" y="30" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="180.0" y="50" text-anchor="middle" dominant-baseline="central">1. Check and de-duplicate</text><text class="ts" x="180.0" y="68" text-anchor="middle" dominant-baseline="central">valid JSON, new seq number</text></g>
+<g class="c-teal"><rect x="60" y="116" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="180.0" y="136" text-anchor="middle" dominant-baseline="central">2. Correct for temperature</text><text class="ts" x="180.0" y="154" text-anchor="middle" dominant-baseline="central">distance × sound-speed ratio</text></g>
+<g class="c-teal"><rect x="60" y="202" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="180.0" y="222" text-anchor="middle" dominant-baseline="central">3. Plausibility checks</text><text class="ts" x="180.0" y="240" text-anchor="middle" dominant-baseline="central">range, stuck, spike</text></g>
+<g class="c-teal"><rect x="60" y="288" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="180.0" y="308" text-anchor="middle" dominant-baseline="central">4. Smooth and measure</text><text class="ts" x="180.0" y="326" text-anchor="middle" dominant-baseline="central">median of 5, rate of rise</text></g>
+<g class="c-teal"><rect x="60" y="374" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="180.0" y="394" text-anchor="middle" dominant-baseline="central">5. Write one row</text><text class="ts" x="180.0" y="412" text-anchor="middle" dominant-baseline="central">accepted or rejected</text></g>
+<g class="c-purple"><rect x="60" y="460" width="240" height="44" rx="8" stroke-width="0.5"/><text class="th" x="180.0" y="482" text-anchor="middle" dominant-baseline="central">InfluxDB</text></g>
+<g class="c-gray"><rect x="390" y="30" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="510.0" y="50" text-anchor="middle" dominant-baseline="central">Dropped, not stored</text><text class="ts" x="510.0" y="68" text-anchor="middle" dominant-baseline="central">repeats, broken messages</text></g>
+<g class="c-amber"><rect x="390" y="202" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="510.0" y="222" text-anchor="middle" dominant-baseline="central">Rejected, still stored</text><text class="ts" x="510.0" y="240" text-anchor="middle" dominant-baseline="central">with the reason</text></g>
+<line x1="180" y1="88" x2="180" y2="114" class="arr" marker-end="url(#arrow)"/>
+<line x1="180" y1="174" x2="180" y2="200" class="arr" marker-end="url(#arrow)"/>
+<line x1="180" y1="260" x2="180" y2="286" class="arr" marker-end="url(#arrow)"/>
+<line x1="180" y1="346" x2="180" y2="372" class="arr" marker-end="url(#arrow)"/>
+<line x1="180" y1="432" x2="180" y2="458" class="arr" marker-end="url(#arrow)"/>
+<line x1="302" y1="58" x2="388" y2="58" class="arr" marker-end="url(#arrow)"/>
+<line x1="302" y1="230" x2="388" y2="230" class="arr" marker-end="url(#arrow)"/>
+<path d="M510 260 L510 402 L302 402" fill="none" class="arr" marker-end="url(#arrow)"/>
+</svg>
