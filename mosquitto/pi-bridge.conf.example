@@ -1,0 +1,21 @@
+# Mosquitto bridge on the Raspberry Pi: its local broker <-> the container's broker. A TEMPLATE, not yet run on a Pi.
+# Copy to /etc/mosquitto/conf.d/flood-bridge.conf, set the password, restart mosquitto.
+# The container's broker (mosquitto/acl) lets user "hub" write farm/+/hub/# and farm/+/node/+/#, and read farm/+/hub/# and farm/+/platform/#,
+# so every line below stays inside that.
+connection flood-platform
+address 192.168.0.26:1883
+bridge_protocol_version mqttv311
+remote_clientid pi-bridge
+remote_username hub
+remote_password CHANGE_ME_MQTT_PW_hub
+cleansession false
+notifications false
+
+# Pi -> container: every reading (WiFi, or RF republished by the gateway) and everything the hub flows publish except the local mode switch.
+topic farm/+/node/+/# out 1
+topic farm/+/hub/heartbeat out 1
+topic farm/+/hub/alert out 1
+topic farm/+/hub/ack out 1
+topic farm/+/hub/state out 1
+# container -> Pi: its retained alert and sensor states (what the Pi obeys in cloud_only mode)
+topic farm/+/platform/# in 1
