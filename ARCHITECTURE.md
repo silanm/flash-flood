@@ -16,7 +16,7 @@ Status: **We built steps 1 to 4 of §12 and they run on the container.** Step 5 
 | Offline-sensor detection (watchdog), alert levels NORMAL, WARNING and CRITICAL with confirmation and hysteresis, reminders, MQTT acknowledgement, ingest of `hub/alert` from the Pi, notifier on the `log` channel, retained state topics | `src/alert.js`, tab `flood: ingest` |
 | Container fallback notifier. It holds its own alert for 30 s. It cancels the alert if the Pi covers it. It records its own notification if the Pi is silent or dead. It sends the notices `PI OFFLINE` and `PI OK`. The dashboard shows a Pi heartbeat tile. | `src/alert.js` (`handle`, `onHub`, `notifyTick`), tab `flood: ingest` |
 | REST endpoints (§13) | `src/rest.js`, `test/rest.test.js` |
-| Pi hub flows (§14). They never ran on a real Pi. | `src/hub.js`, `nodered/pi.flows.json` |
+| Pi hub flows (§14). They run on the rig's Pi; the drivers are in `hardware/`. | `src/hub.js`, `nodered/pi.flows.json`, `hardware/` |
 | 73 unit and scenario tests. Mutation checks showed that tests fail when we remove the spike gate, the fail-safe, the confirmation, the hysteresis or the temperature correction. | `test/` |
 
 ```bash

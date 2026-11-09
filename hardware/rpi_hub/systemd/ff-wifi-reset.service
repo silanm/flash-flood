@@ -1,0 +1,9 @@
+[Unit]
+Description=Flash Flood hub: forget all saved WiFi and open the setup portal (button held 8 s, or systemctl start)
+After=NetworkManager.service
+Conflicts=ff-wifi-setup.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -u /home/pi/ff-hub/ff_wifi_portal.py reset
+Restart=no

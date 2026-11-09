@@ -1,0 +1,16 @@
+[Unit]
+Description=Flash Flood nRF24L01 -> MQTT gateway (ESP32 RF fallback)
+After=network-online.target mosquitto.service
+Wants=mosquitto.service
+
+[Service]
+User=pi
+Group=pi
+SupplementaryGroups=spi gpio
+WorkingDirectory=/home/pi/ff-hub
+ExecStart=/home/pi/ff-hub/.venv/bin/python -u /home/pi/ff-hub/rf_gateway.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
