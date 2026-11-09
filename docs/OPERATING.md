@@ -12,7 +12,7 @@ The platform receives water-level readings from an ultrasonic sensor node over M
 - offline-sensor detection, alert levels (normal, warning and critical) and acknowledgements
 - the notifier (log channel)
 
-The REST endpoints and the Pi hub flows (`nodered/pi.flows.json`) are also built. The Pi flows never ran on a real Pi.
+The REST endpoints and the Pi hub flows (`nodered/pi.flows.json`) are also built. The Pi flows run on the rig's Pi (see `hardware/README.md`).
 
 **Out of scope:** an external push channel (LINE, email or SMS). The platform tells people through the dashboard, the Node-RED log, the retained MQTT alert topics and the local alarm on the Pi.
 
@@ -56,7 +56,6 @@ Every reading goes through these stages (`src/pipeline.js`, thresholds in `confi
 |---|---|---|
 | Schema, duplicates | malformed JSON, QoS 1 redelivery (by `seq`), a node restart | dropped (not stored) |
 | Range | echo timeout (`null`), 0, below the sensor minimum, above the maximum | stored, `reject = timeout` or `range` |
-| Stuck detector | the same distance 30 times in a row | `reject = stuck`, quality suspect |
 | Spike gate | a single reading far from the recent median and physically too fast | `reject = spike` |
 | Step | a spike that *stays* for 3 readings is a real change, not noise | accepted |
 | Median of 5 | the remaining jitter | `level_f`, the filtered level |
@@ -212,7 +211,7 @@ You can tune everything in **`config/site.json`**. Change the file. Then run `no
 | `alerts.fallback.grace_s` | The time that the container waits for the Pi to send first (30). |
 | `alerts.fallback.pi_dead_after_s` | The silence before the Pi counts as dead (90, which is three missed heartbeats). |
 | `alerts.fallback.cover_s` | The maximum age of a Pi alert that covers our alert (120). |
-| `filter.*` | The spike, step, stuck and rate parameters. The defaults suit a 2 s sample interval. |
+| `filter.*` | The spike, step and rate parameters. The defaults suit a 2 s sample interval. |
 | `hub.*` | The Pi hub: default mode, state refresh time and heartbeat time. |
 | `sim.*` | The simulated node name, autostart, start scenario and seed. |
 
@@ -240,7 +239,7 @@ Open the dashboard. The deploy prints the URL (`<grafana>/d/flood-main/flood-mon
 | **Rate chart**, **Temperature and its correction**, **Transport** | The rate with its thresholds. The temperature in °C and the correction in cm. WiFi against RF. |
 | **Alert state and Sensor quality timelines** | Colored bands over time. A gap is a period with no data. |
 | **Alerts, Notifications** (24 h, not tied to the time picker) | Every state change, and what the platform sent or suppressed. |
-| **Rejected readings** | The number of dropped readings and the reasons. Many `stuck` or `spike` rows mean a sensor problem or an aiming problem. |
+| **Rejected readings** | The number of dropped readings and the reasons. Many `spike` rows mean a sensor problem or an aiming problem. |
 | **Device status messages** | The online and offline messages of the device. |
 
 The charts use dots, not lines, on purpose. A line across a silent period makes a dead sensor look calm.
@@ -292,7 +291,6 @@ The script saves each config that it edits as `*.pre-flood`. To roll back, resto
 | Dashboard panels stay blank for 10 to 20 s after you open them | This is normal on the first load while the queries run. |
 | A real device sends but nothing appears | The topic is wrong (it must be `farm/<site>/node/<node>/level`), the username is not the node ID, or the payload is not JSON. |
 | The level is 1 to 2 cm wrong | `sensor_height_cm` is not calibrated, or the sound speed in the firmware differs from `assumed_sound_mps`. |
-| Many `stuck` rejections in calm water | The firmware rounds the distance to whole cm. Raise `filter.stuck_n` or send finer values. |
 | The rate shows nothing | Less than 45 s of data since the start, a restart or a level jump. |
 | The broker refuses Lab 5 clients | Passwords are now required. Give each client a user. |
 | The alert tile shows SENSOR FAULT but the readings look fine | The fault clears after 30 s of good readings (`alerts.sensor_clear_s`). |

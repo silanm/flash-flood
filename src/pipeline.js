@@ -2,7 +2,7 @@
 const median = (a) => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
 const mad = (a, med) => median(a.map((x) => Math.abs(x - med)));
 
-const newState = () => ({ seen: [], lastSeq: null, win: [], pend: [], hist: [], recent: [], same: 0, lastD: null, lastAccT: null, lastTemp: null });
+const newState = () => ({ seen: [], lastSeq: null, win: [], pend: [], hist: [], recent: [], lastAccT: null, lastTemp: null });
 
 // Least-squares slope in cm/min over hist [{t(s), v}], or null if too little data to be meaningful.
 function slope(hist, minSpanS) {
@@ -45,9 +45,9 @@ function step(st, msg, cfg, now) {
   else {
     dc = tc === null ? d : d * (331.3 + 0.606 * tc) / TC.assumed_sound_mps;
     level = T.sensor_height_cm - dc;
-    st.same = d === st.lastD ? st.same + 1 : 1; st.lastD = d;
-    if (st.same >= F.stuck_n) reject = 'stuck';
-    else if (st.win.length >= 3) {
+    // No stuck detector: the HC-SR04 steps in ~0.4 cm, so calm water repeats one value for minutes.
+    // A faulty sensor shows up as timeouts, out-of-range values or spikes instead (quality below).
+    if (st.win.length >= 3) {
       const med = median(st.win), thr = Math.max(F.hampel_k * 1.4826 * mad(st.win, med), F.min_step_cm);
       const dtMin = Math.max((t - st.lastAccT) / 60000, 1 / 60);
       if (Math.abs(level - med) > thr && Math.abs(level - med) / dtMin > F.max_rate_cm_min) {
@@ -61,7 +61,7 @@ function step(st, msg, cfg, now) {
 
   st.recent.push({ t, bad: reject !== null }); while (st.recent.length && t - st.recent[0].t > 60000) st.recent.shift();
   const ratio = st.recent.filter((r) => r.bad).length / st.recent.length;
-  const quality = ratio > F.invalid_bad ? 2 : ratio > F.invalid_suspect || st.same >= F.stuck_n ? 1 : 0;
+  const quality = ratio > F.invalid_bad ? 2 : ratio > F.invalid_suspect ? 1 : 0;
 
   const fields = { valid: reject === null, seq: msg.seq, quality, latency_ms: now - t };
   if (d !== null) fields.distance_cm = d;

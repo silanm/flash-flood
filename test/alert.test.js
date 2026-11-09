@@ -48,7 +48,7 @@ test('recede: alert holds until the level is clearly below the threshold, then c
   assert.ok(clr, 'must clear'); assert.ok(clr.t >= 225 && clr.t <= 275, `cleared at ${clr.t} s (level crosses 13 cm at 210 s + 30 s hold)`);
 });
 
-test('glitches: zero flood alerts from nulls, zeros, spikes and a stuck run', () => assert.deepEqual(flood(run(cfg, 'glitches', 600)), []));
+test('glitches: zero flood alerts from nulls, zeros, spikes and a repeated value', () => assert.deepEqual(flood(run(cfg, 'glitches', 600)), []));
 
 test('failover (wifi -> rf, duplicates, LWT offline): no alerts of any kind', () => assert.deepEqual(run(cfg, 'failover', 150).events, []));
 
@@ -64,7 +64,8 @@ test('sensor_dead mid-WARNING: sensor fault raised, flood WARNING is HELD (never
 
 test('silence: node-offline fault by watchdog after stale_after_s, clears after data resumes', () => {
   const r = run(cfg, 'silence', 230), sf = r.events.find((e) => e.type === 'sensor_fault'), ok = r.events.find((e) => e.type === 'sensor_ok');
-  assert.equal(sf.reason, 'stale'); assert.ok(sf.t >= 115 && sf.t <= 135, `stale at ${sf.t} s (last data 28 s + 90 s)`);
+  const due = 28 + cfg.alerts.stale_after_s;                                          // last data at 28 s; the watchdog ticks every 10 s
+  assert.equal(sf.reason, 'stale'); assert.ok(sf.t >= due - 3 && sf.t <= due + 17, `stale at ${sf.t} s (last data 28 s + ${cfg.alerts.stale_after_s} s)`);
   assert.ok(ok && ok.t > 150, 'recovers only after data resumes (150 s) plus sensor_clear_s');
   assert.equal(flood(r).length, 0);
 });

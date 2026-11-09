@@ -124,12 +124,12 @@ test('edge: a fast rise raises the hub alert from the rate, before the level lin
   assert.equal(raised.body.trace.seq, first.body.seq); assert.equal(raised.body.ts - raised.body.trace.rx_ms, 0, 'edge latency: the alarm is set in the same instant the reading arrives');
 });
 
-test('edge: calm raises nothing and shows green; glitches raise no flood alert (a stuck sensor may raise a sensor fault)', async () => {
+test('edge: calm raises nothing and shows green; glitches raise no flood alert', async () => {
   const calm = rig('calm'); await calm.run(300);
   assert.deepEqual(on(calm, '/hub/alert'), []);
   const s = on(calm, '/hub/state').at(-1).body; assert.deepEqual([s.led, s.buzzer, s.lcd[3]], ['green', 'off', 'Mode: edge']);
   const g = rig('glitches'); await g.run(600);
-  assert.deepEqual(on(g, '/hub/alert').filter((m) => m.body.severity !== 'sensor'), [], 'no flood alert from nulls, zeros, spikes or a stuck run');
+  assert.deepEqual(on(g, '/hub/alert').filter((m) => m.body.severity !== 'sensor'), [], 'no flood alert from nulls, zeros, spikes or a repeated value');
   assert.deepEqual(g.flow.keys().filter((k) => k.startsWith('fsm:')).map((k) => g.flow.get(k).sev), [0]);
 });
 

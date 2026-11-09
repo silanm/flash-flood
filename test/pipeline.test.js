@@ -43,12 +43,14 @@ test('glitches: every null/0/spike is rejected and level_f stays near truth (lev
   assert.ok(bad.length > 10, 'scenario should inject glitches');
   assert.ok(rows.filter((r) => r.fields.valid).every((r) => Math.abs(r.fields.level_f - 8) < 1.5), 'filtered level drifted');
   const reasons = new Set(bad.map((r) => r.fields.reject));
-  for (const k of ['timeout', 'range', 'spike', 'stuck']) assert.ok(reasons.has(k), `missing reject reason ${k}`);
+  for (const k of ['timeout', 'range', 'spike']) assert.ok(reasons.has(k), `missing reject reason ${k}`);
 });
 
-test('stuck run flags the node suspect', () => {
-  const rows = run('glitches', 130).filter((r) => !r.drop && r.fields.reject === 'stuck');
-  assert.ok(rows.length > 0 && rows.every((r) => r.fields.quality >= 1));
+test('a constant reading is valid, not a fault (calm water repeats one HC-SR04 step)', () => {
+  let st = P.newState(), t = 0, last;
+  for (let seq = 1; seq <= 300; seq++) { last = feed(st, seq, 35.8, t); st = last.st; t += 2; } // 10 min of one value
+  assert.equal(last.out.fields.valid, true);
+  assert.equal(last.out.fields.quality, 0);
 });
 
 test('sensor_dead: all-null window drives quality to bad and never produces a level', () => {
@@ -102,7 +104,7 @@ test('clock skew: node timestamp far from now falls back to receive time', () =>
 });
 
 test('a level step does not read as a sustained rise (slope history drops at the jump)', () => {
-  // +/-0.1 cm alternating jitter, as a live sensor has (a constant signal would trip the stuck detector instead)
+  // +/-0.1 cm alternating jitter, as a live sensor has 
   let st = P.newState(), seq = 0, t = 0;
   const f = (d) => { const r = feed(st, ++seq, d + (seq % 2 ? 0.1 : -0.1), t); st = r.st; t += 2; return r.out.fields; };
   for (let i = 0; i < 60; i++) f(24);                       // level 6, calm
