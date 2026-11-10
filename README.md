@@ -88,7 +88,7 @@ node scripts/deploy.mjs    # installs the flows and the dashboard, then starts t
 | Pi gateway flows (edge and cloud-only modes) | Run on the real Pi. Edge mode is used on the rig. |
 | ESP32 firmware, nRF24L01 hot standby, buzzer, LED and LCD drivers | In [hardware/](hardware/README.md). Run on the rig: a water jar, 5 to 25 cm, level error 0.25 cm (mean absolute). |
 | WiFi outage on the rig | In a run with a real 3.6-minute WiFi outage, all 704 readings arrived, 94 of them over RF. The Pi alarmed on its own, and Grafana filled the gap afterwards. |
-| Benchmarks, power measurements, cloud-only comparison | In progress. |
+| Benchmarks, power measurements, cloud-only comparison | Done on the rig. The Pi raised CRITICAL within 47 ms with the platform link clean, impaired or down; the cloud-only baseline took 64 ms, up to 2.8 s, and gave no alarm with the link down. The rig draws 3.0 W. Scripts and raw results in [eval/](eval/README.md). |
 
 ## Read next
 
@@ -98,6 +98,7 @@ node scripts/deploy.mjs    # installs the flows and the dashboard, then starts t
 | Understand the design and the decisions | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Build the sensor node and the Pi hub | [hardware/README.md](hardware/README.md) |
 | Set up the Raspberry Pi flows | [docs/PI_SETUP.md](docs/PI_SETUP.md) |
+| Reproduce the benchmarks and the cloud-only comparison | [eval/README.md](eval/README.md) |
 | See what we built, what we tested and what remains | [docs/IMPLEMENTATION_LOG.md](docs/IMPLEMENTATION_LOG.md) |
 | See the raw test data and dashboard screenshots | [docs/evidence/README.md](docs/evidence/README.md) |
 

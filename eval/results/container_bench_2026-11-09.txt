@@ -1,0 +1,120 @@
+/dev/mapper/pve-vm--100--disk--0   20G  5.2G   14G  29% /
+=== container  2026-11-09T02:52:53+00:00  sec1-group06
+Linux 7.0.12-1-pve x86_64
+model name	: Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz
+4
+Mem:            8192         700        4567           0        2923        7491
+ 02:52:53 up 41 days, 18:30,  1 user,  load average: 1.26, 1.03, 0.95
+
+=== sysbench cpu, 1 thread
+sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:   392.81
+
+General statistics:
+    total time:                          30.0013s
+    total number of events:              11787
+
+Latency (ms):
+         min:                                    2.30
+         avg:                                    2.54
+         max:                                    9.01
+         95th percentile:                        2.86
+         sum:                                29995.92
+
+Threads fairness:
+    events (avg/stddev):           11787.0000/0.00
+    execution time (avg/stddev):   29.9959/0.00
+
+
+=== sysbench cpu, 4 threads
+sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+
+Running the test with following options:
+Number of threads: 4
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:  1471.30
+
+General statistics:
+    total time:                          30.0045s
+    total number of events:              44149
+
+Latency (ms):
+         min:                                    2.30
+         avg:                                    2.72
+         max:                                   15.41
+         95th percentile:                        3.19
+         sum:                               119982.34
+
+Threads fairness:
+    events (avg/stddev):           11037.2500/165.36
+    execution time (avg/stddev):   29.9956/0.00
+
+
+=== sysbench memory, 1 thread, 1 KiB blocks, 10 GiB
+sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Running memory speed test with the following options:
+  block size: 1KiB
+  total size: 10240MiB
+  operation: write
+  scope: global
+
+Initializing worker threads...
+
+Threads started!
+
+Total operations: 10485760 (5293616.28 per second)
+
+10240.00 MiB transferred (5169.55 MiB/sec)
+
+
+General statistics:
+    total time:                          1.9756s
+    total number of events:              10485760
+
+Latency (ms):
+         min:                                    0.00
+         avg:                                    0.00
+         max:                                    0.49
+         95th percentile:                        0.00
+         sum:                                  928.73
+
+Threads fairness:
+    events (avg/stddev):           10485760.0000/0.00
+    execution time (avg/stddev):   0.9287/0.00
+
+
+=== dd write 1024 MiB, oflag=direct, conv=fdatasync -> /var/lib/influxdb
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 2.69556 s, 398 MB/s
+=== dd read 1024 MiB, iflag=direct
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 2.63682 s, 407 MB/s
+=== dd write 4 KiB x 2000, oflag=dsync (small synced writes, like a database commit)
+8192000 bytes (8.2 MB, 7.8 MiB) copied, 1.30359 s, 6.3 MB/s
+=== done 2026-11-09T02:54:01+00:00

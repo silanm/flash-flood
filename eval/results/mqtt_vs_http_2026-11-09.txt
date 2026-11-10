@@ -1,0 +1,6 @@
+payload 141 B, N = 100 messages, 2026-11-09T03:00:07+0000
+case                          pkts/msg  IP B/msg  app B/msg  IP overhead vs payload
+MQTT QoS0, one session            2.27     303.7      185.5                   2.15x
+MQTT QoS0, connect per msg       12.12     881.6      235.3                   6.25x
+HTTP/1.1 POST, keep-alive         2.08     566.3      458.0                   4.02x
+HTTP/1.1 POST, connect per msg     10.00     994.0      458.0                   7.05x
