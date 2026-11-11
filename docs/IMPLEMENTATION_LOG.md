@@ -25,7 +25,7 @@ Companion files: `README.md` (overview and quick start), `docs/OPERATING.md` (ho
 | Pi hub flows (edge and cloud_only modes for baseline A, hub/heartbeat, hub/alert, hub/state) | **Done, ran on the Pi** (November 2026). The rig build is `hardware/rpi_hub/pi.flows.ait.json`. 16 tests pass. Mutation checks caught 9 of 10 mutations. | `nodered/pi.flows.json`, `hardware/rpi_hub/build_pi_flows.js`, `src/hub.js`, `hardware/README.md`, ARCHITECTURE.md §14 |
 | Automated tests | **73 pass** (45 before REST, 57 before the Pi flows). We mutation-checked the key rules. | `npm test` |
 | External push notifications (LINE) | **Out of scope** (decided 2026-10-21) | history item 14 |
-| Real sensor data, calibration, real thresholds | **Done on the rig.** Sensor height 36.6 cm. Level thresholds 16 and 24 cm. The rate thresholds (1.0 and 2.5 cm/min) are still provisional. The ruler calibration has no raw file in the repo yet. | `hardware/rpi_hub/build_pi_flows.js`, `eval/results/take*.csv` |
+| Real sensor data, calibration, real thresholds | **Done on the rig.** Sensor height 36.6 cm. Level thresholds 16 and 24 cm. The rate thresholds (1.0 and 2.5 cm/min) are still provisional. | `hardware/rpi_hub/build_pi_flows.js`, `eval/results/take*.csv` |
 | Section V benchmarks (sysbench, dd, iPerf3, current draw) | **Done** | `eval/results/`, `eval/README.md` |
 | Evidence (screenshots, data, test and mutation output) and the three diagrams saved as files | **Done** 2026-10-21 | `docs/evidence/`, `docs/figures/` |
 | Git repository | **Pushed** to GitHub (`silanm/flash-flood`). | `git log` |
@@ -129,9 +129,8 @@ These runs and the automated tests are the material for the results section of t
 ## 5. What is left
 
 **State on 2026-11-11.** Items 1 to 6 are done: the rig, the Pi flows, the bridge, the benchmarks and the power measurements are in `hardware/` and `eval/`. Item 8 is done except the demo video. These items are still open:
-- The ruler calibration (MAE 0.25 cm in the report) has no raw file in the repo.
 - Item 7: Grafana still uses the default `admin` login, and the dashboard has no viewer-only login.
-- The rate thresholds are provisional. By calculation, with a 90 s slope window and a WARNING threshold of 1.0 cm/min, a steady 1 cm/min rise cannot raise a WARNING within the 90 s target of Objective 2. Nobody ran a 1 cm/min rise.
+- The rate thresholds are provisional. By calculation, with a 90 s slope window and a WARNING threshold of 1.0 cm/min, a steady 1 cm/min rise needs about 90 s to raise a rate WARNING. Nobody ran a 1 cm/min rise.
 
 The items below are the list as it was on 2026-10-21.
 
