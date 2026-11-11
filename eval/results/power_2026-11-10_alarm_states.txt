@@ -1,0 +1,4 @@
+12:54:22 farm/ait/hub/state "sev":0 "led":"green" "buzzer":"off" 
+12:55:29 farm/ait/hub/state "sev":1 "led":"amber" "buzzer":"warning" 
+12:56:51 farm/ait/hub/state "sev":2 "led":"red" "buzzer":"critical" 
+13:00:13 farm/ait/hub/state "sev":2 "led":"red" "buzzer":"off" 

@@ -100,7 +100,7 @@ module.exports = function dashboard(cfg, bucket = 'flood') {
     time: { from: 'now-15m', to: 'now' },
     templating: { list: [
       tagVar('site', `import "influxdata/influxdb/schema"\nschema.tagValues(bucket: "${bucket}", tag: "site")`),
-      tagVar('node', `import "influxdata/influxdb/schema"\nschema.tagValues(bucket: "${bucket}", tag: "node", predicate: (r) => r.site == "\${site}")`),
+      tagVar('node', `import "influxdata/influxdb/schema"\nschema.tagValues(bucket: "${bucket}", tag: "node", predicate: (r) => r._measurement == "level" and r.site == "\${site}")`),
     ] },
     panels,
   };

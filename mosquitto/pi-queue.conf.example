@@ -1,0 +1,5 @@
+# Raspberry Pi broker: keep readings while the bridge is down. Copy to /etc/mosquitto/conf.d/00-queue.conf.
+# Without this, Mosquitto drops QoS 0 messages for an offline bridge, and a 90 s uplink cut lost every reading.
+# 20000 messages = about 9 h of one node at one reading per 2 s (plus hub messages).
+queue_qos0_messages true
+max_queued_messages 20000

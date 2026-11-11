@@ -19,7 +19,7 @@ flowchart TB
     M["Mosquitto<br/>MQTT broker"] --> N["Node-RED<br/>filter and alerts"] --> I["InfluxDB<br/>storage"] --> G["Grafana<br/>dashboard"]
   end
   S -->|"WiFi + MQTT"| P
-  S -.->|"nRF24L01 radio if WiFi fails"| P
+  S -.->|"nRF24L01 radio, a copy of every reading"| P
   P --> A
   P -->|"bridge, when the link is up"| M
   N -.->|"fallback alert if the Pi is silent"| O["Officer"]
@@ -27,7 +27,7 @@ flowchart TB
 ```
 
 Two failures do not stop the alarm:
-- **WiFi fails.** The sensor node switches to a separate radio link to the Pi.
+- **WiFi fails.** The sensor node also sends every reading over a separate radio link, so the Pi still gets it.
 - **The link to the server fails.** The Pi decides and sounds the alarm alone.
 
 ## One reading, from sensor to dashboard
@@ -84,10 +84,11 @@ node scripts/deploy.mjs    # installs the flows and the dashboard, then starts t
 
 | Part | State |
 |---|---|
-| Server side: filtering, alerts, fallback, dashboard, REST endpoints | Built and tested. It runs on a lab container with simulated data. |
-| Pi gateway flows (edge and cloud-only modes) | Built and tested on a fake clock. They never ran on a real Pi. |
-| ESP32 firmware, nRF24L01 failover, buzzer, LED and LCD drivers | Not in this repo. The equipment owner builds them. |
-| Real sensor data, benchmarks, power measurements | Not done yet. |
+| Server side: filtering, alerts, fallback, dashboard, REST endpoints | Built and tested. It runs on a lab container with real sensor data from the rig. |
+| Pi gateway flows (edge and cloud-only modes) | Run on the real Pi. Edge mode is used on the rig. |
+| ESP32 firmware, nRF24L01 hot standby, buzzer, LED and LCD drivers | In [hardware/](hardware/README.md). Run on the rig: a water jar, 5 to 25 cm, level error 0.25 cm (mean absolute). |
+| WiFi outage on the rig | In a run with a real 3.6-minute WiFi outage, all 704 readings arrived, 94 of them over RF. The Pi alarmed on its own, and Grafana filled the gap afterwards. |
+| Benchmarks, power measurements, cloud-only comparison | Done on the rig. The Pi raised CRITICAL within 47 ms with the platform link clean, impaired or down; the cloud-only baseline took 64 ms, up to 2.8 s, and gave no alarm with the link down. The rig draws 3.0 W. Scripts and raw results in [eval/](eval/README.md). |
 
 ## Read next
 
@@ -95,7 +96,9 @@ node scripts/deploy.mjs    # installs the flows and the dashboard, then starts t
 |---|---|
 | Run, configure or troubleshoot the platform | [docs/OPERATING.md](docs/OPERATING.md) |
 | Understand the design and the decisions | [ARCHITECTURE.md](ARCHITECTURE.md) |
-| Set up the Raspberry Pi | [docs/PI_SETUP.md](docs/PI_SETUP.md) |
+| Build the sensor node and the Pi hub | [hardware/README.md](hardware/README.md) |
+| Set up the Raspberry Pi flows | [docs/PI_SETUP.md](docs/PI_SETUP.md) |
+| Reproduce the benchmarks and the cloud-only comparison | [eval/README.md](eval/README.md) |
 | See what we built, what we tested and what remains | [docs/IMPLEMENTATION_LOG.md](docs/IMPLEMENTATION_LOG.md) |
 | See the raw test data and dashboard screenshots | [docs/evidence/README.md](docs/evidence/README.md) |
 
@@ -110,4 +113,5 @@ scripts/    deploy script and broker security scripts
 mosquitto/  broker topic rules and a Pi bridge template
 config/     site.json holds every number that you can tune
 docs/       manual, Pi setup, build log, evidence and figures
+hardware/   ESP32 node firmware, Pi hub drivers, RF gateway, WiFi portal, services
 ```

@@ -1,15 +1,21 @@
-# Mosquitto bridge on the Raspberry Pi: its local broker <-> the container's broker. A TEMPLATE, not yet run on a Pi.
+# Mosquitto bridge on the Raspberry Pi: its local broker <-> the container's broker. Runs on the rig (hardware/README.md).
 # Copy to /etc/mosquitto/conf.d/flood-bridge.conf, set the password, restart mosquitto.
 # The container's broker (mosquitto/acl) lets user "hub" write farm/+/hub/# and farm/+/node/+/#, and read farm/+/hub/# and farm/+/platform/#,
 # so every line below stays inside that.
 connection flood-platform
-address 192.168.0.26:1883
+# The rig used the container's Tailscale address (Mosquitto allows no comment after a value).
+address CONTAINER_IP:1883
 bridge_protocol_version mqttv311
 remote_clientid pi-bridge
 remote_username hub
 remote_password CHANGE_ME_MQTT_PW_hub
 cleansession false
 notifications false
+# Outages: notice a dead link in about 15 s, retry every 3 s, and send the queued readings as QoS 1.
+# The node publishes at QoS 0, so the Pi broker must also queue QoS 0 messages (pi-queue.conf.example).
+keepalive_interval 15
+restart_timeout 3
+upgrade_outgoing_qos true
 
 # Pi -> container: every reading (WiFi, or RF republished by the gateway) and everything the hub flows publish except the local mode switch.
 topic farm/+/node/+/# out 1

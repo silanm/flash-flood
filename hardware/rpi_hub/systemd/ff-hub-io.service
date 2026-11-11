@@ -1,0 +1,18 @@
+[Unit]
+Description=Flash Flood hub hardware I/O (LCD, buzzer, RGB LED, ack button)
+After=network-online.target mosquitto.service
+Wants=mosquitto.service
+
+[Service]
+User=pi
+Group=gpio
+SupplementaryGroups=i2c
+WorkingDirectory=/home/pi/ff-hub
+ExecStart=/usr/bin/python3 /home/pi/ff-hub/hub_io.py
+# Buzzer is active-low: whatever happens, leave GPIO18 driven HIGH (silent)
+ExecStopPost=/usr/bin/pinctrl set 18 op pu dh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

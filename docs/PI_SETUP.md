@@ -4,7 +4,7 @@ The Pi runs the same filter and alert code as the container. Node-RED flows that
 - `edge` (the proposed design): the Pi decides.
 - `cloud_only` (baseline A for the evaluation): the Pi relays the readings and obeys the container.
 
-`ARCHITECTURE.md` section 14 gives the design and the decisions. The flows never ran on a real Pi. The tests run them on a fake clock against the simulator.
+`ARCHITECTURE.md` section 14 gives the design and the decisions. The flows run on the rig's Pi. The tests run them on a fake clock against the simulator. The hardware drivers, the RF gateway and the services are in [hardware/README.md](../hardware/README.md).
 
 ## 1. Install
 1. Install Mosquitto and Node-RED on the Pi. In Mosquitto, make a user for the flows and the ESP32. Enable passwords, as on the container (`scripts/mosquitto-auth.sh`).
@@ -39,5 +39,5 @@ Your GPIO and I2C flows must read `hub/state` and drive the hardware:
 - In `cloud_only` mode, the bridge relays the readings. The Pi publishes no `hub/alert`. The Pi drives the hardware from the container states `platform/alert` and `platform/sensor`.
 - A `hub/state` message that follows a new alert has this field: `"trace":{"seq":88,"rx_ms":...}`. The value `ts - trace.rx_ms` is the time from the reading on the Pi to the alarm. The Pi measures it on one clock. This is the latency number for Section V.
 
-## 4. Not done here
-You must build these parts: the GPIO, I2C LCD and buzzer drivers, the RF receiver and the Mosquitto passwords on the Pi. The bridge never ran. The contract above is all that these parts need.
+## 4. Hardware side
+The GPIO, I2C LCD and buzzer drivers (`hardware/rpi_hub/hub_io.py`), the RF receiver (`hardware/rpi_hub/rf_gateway.py`), the Mosquitto queue and bridge settings and the services are in [hardware/README.md](../hardware/README.md). They use only the contract above.

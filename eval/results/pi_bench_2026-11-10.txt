@@ -1,0 +1,124 @@
+=== pi  2026-11-10T13:27:48+07:00  ff-hub
+Linux 6.18.50+rpt-rpi-v8 aarch64
+Model		: Raspberry Pi 4 Model B Rev 1.1
+4
+Mem:            3795         393        2989           1         477        3402
+ 13:27:48 up 23 min,  1 user,  load average: 0.39, 0.16, 0.11
+temp=56.0'C
+throttled=0x0
+
+=== sysbench cpu, 1 thread
+sysbench 1.0.20 (using system LuaJIT 2.1.1723681758)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:   580.61
+
+General statistics:
+    total time:                          30.0004s
+    total number of events:              17421
+
+Latency (ms):
+         min:                                    1.71
+         avg:                                    1.72
+         max:                                    3.77
+         95th percentile:                        1.73
+         sum:                                29991.69
+
+Threads fairness:
+    events (avg/stddev):           17421.0000/0.00
+    execution time (avg/stddev):   29.9917/0.00
+
+
+=== sysbench cpu, 4 threads
+sysbench 1.0.20 (using system LuaJIT 2.1.1723681758)
+
+Running the test with following options:
+Number of threads: 4
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:  2277.13
+
+General statistics:
+    total time:                          30.0009s
+    total number of events:              68325
+
+Latency (ms):
+         min:                                    1.71
+         avg:                                    1.76
+         max:                                   19.64
+         95th percentile:                        1.79
+         sum:                               119968.57
+
+Threads fairness:
+    events (avg/stddev):           17081.2500/20.87
+    execution time (avg/stddev):   29.9921/0.00
+
+
+=== sysbench memory, 1 thread, 1 KiB blocks, 10 GiB
+sysbench 1.0.20 (using system LuaJIT 2.1.1723681758)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Running memory speed test with the following options:
+  block size: 1KiB
+  total size: 10240MiB
+  operation: write
+  scope: global
+
+Initializing worker threads...
+
+Threads started!
+
+Total operations: 10485760 (2036457.44 per second)
+
+10240.00 MiB transferred (1988.73 MiB/sec)
+
+
+General statistics:
+    total time:                          5.1450s
+    total number of events:              10485760
+
+Latency (ms):
+         min:                                    0.00
+         avg:                                    0.00
+         max:                                    0.08
+         95th percentile:                        0.00
+         sum:                                 2481.28
+
+Threads fairness:
+    events (avg/stddev):           10485760.0000/0.00
+    execution time (avg/stddev):   2.4813/0.00
+
+
+=== dd write 256 MiB, oflag=direct, conv=fdatasync -> /home/pi
+268435456 bytes (268 MB, 256 MiB) copied, 8.50833 s, 31.5 MB/s
+=== dd read 256 MiB, iflag=direct
+268435456 bytes (268 MB, 256 MiB) copied, 6.18152 s, 43.4 MB/s
+=== dd write 4 KiB x 2000, oflag=dsync (small synced writes, like a database commit)
+8192000 bytes (8.2 MB, 7.8 MiB) copied, 14.0589 s, 583 kB/s
+
+temp=58.9'C
+throttled=0x0
+=== done 2026-11-10T13:29:23+07:00
