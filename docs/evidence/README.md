@@ -1,6 +1,8 @@
 # Evidence
 
-This folder holds raw material for the evaluation section of the report. The system in this repository produced all of it. Nobody edited it by hand. **All data is simulated** (node `sim01`, site `demo`). No real sensor was connected yet. The times are Asia/Bangkok (UTC+7), unless a column says UTC.
+This folder holds the raw material from the simulator phase (October 2026), before the rig was built. The system in this repository produced all of it. Nobody edited it by hand. **All data in this folder is simulated** (node `sim01`, site `demo`). The times are Asia/Bangkok (UTC+7), unless a column says UTC.
+
+The data from the real rig (ESP32 node, Raspberry Pi gateway, November 2026) is in [`eval/results/`](../../eval/results/). [`eval/README.md`](../../eval/README.md) describes it.
 
 ## Automated checks
 
@@ -54,6 +56,8 @@ We took the screenshots from the browser pane of the build tool on 2026-10-18, w
 | `13-DEFECT-line-bridges-outage.png`, `14-outage-shown-as-gap-dots.jpg` | A connected line hid an outage of 2.5 minutes. With dots, the outage shows as a gap. |
 | `15-final-dashboard-pi-hub-tile-phone-layout.jpg` | The dashboard at that time (with the tile "Pi hub last seen") in the phone-style layout. |
 
-## Not here yet
+## Rig data and benchmarks
 
-These items do not exist yet: the benchmarks (sysbench, dd and iPerf3), the measured current draw, any data from a real sensor and anything that involves the Raspberry Pi.
+These items are in [`eval/results/`](../../eval/results/), not in this folder: the benchmarks (sysbench, dd and iPerf3), the measured current draw, the demonstration runs with the real sensor and the edge against cloud-only latency runs on the Raspberry Pi.
+
+The ruler calibration of the level (MAE 0.25 cm in the report) has no raw file in the repository yet.

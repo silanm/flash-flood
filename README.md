@@ -110,8 +110,9 @@ test/       73 unit and scenario tests
 nodered/    builds the Node-RED flows, including nodered/pi.flows.json for the Pi
 grafana/    the dashboard as code
 scripts/    deploy script and broker security scripts
-mosquitto/  broker topic rules and a Pi bridge template
+mosquitto/  broker topic rules, and the Pi bridge and queue templates
 config/     site.json holds every number that you can tune
 docs/       manual, Pi setup, build log, evidence and figures
 hardware/   ESP32 node firmware, Pi hub drivers, RF gateway, WiFi portal, services
+eval/       benchmark and edge against cloud-only scripts, raw results, report figures
 ```
