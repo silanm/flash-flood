@@ -59,5 +59,3 @@ We took the screenshots from the browser pane of the build tool on 2026-10-18, w
 ## Rig data and benchmarks
 
 These items are in [`eval/results/`](../../eval/results/), not in this folder: the benchmarks (sysbench, dd and iPerf3), the measured current draw, the demonstration runs with the real sensor and the edge against cloud-only latency runs on the Raspberry Pi.
-
-The ruler calibration of the level (MAE 0.25 cm in the report) has no raw file in the repository yet.
