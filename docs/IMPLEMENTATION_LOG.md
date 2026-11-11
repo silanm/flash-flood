@@ -2,6 +2,8 @@
 
 We wrote this log on 2026-10-21 from the build sessions of 2026-10-14, 2026-10-18 and 2026-10-21. The scope is everything on the Proxmox container (Node-RED, InfluxDB, Grafana and Mosquitto) and the simulator that replaces the equipment of the colleague. This log does not cover the ESP32 firmware, the Raspberry Pi hardware and the nRF24L01 radio. They belong to the equipment owner.
 
+> **Update 2026-11-11.** The hardware tier is now in this repo (`hardware/`, merged in pull request #1), and the rig ran end to end. The Pi ran the hub flows, the bridge and the RF gateway. The real ESP32 node and HC-SR04 sent the readings. The benchmarks, the power measurements and the edge against cloud-only runs are in `eval/results/` (`eval/README.md`). The status table and section 5 below show the state on 2026-11-11. The build history in section 2 is unchanged and stops at 2026-10-21.
+
 Companion files: `README.md` (overview and quick start), `docs/OPERATING.md` (how to operate the platform), `ARCHITECTURE.md` (the design and the decisions), `config/site.json` (all numbers) and `test/` (the acceptance scenarios as executable checks). This file is the chronological account and the to-do list.
 
 ---
@@ -20,13 +22,13 @@ Companion files: `README.md` (overview and quick start), `docs/OPERATING.md` (ho
 | Container fallback notifier (the Pi is primary, the container is second) | **Done**, log channel only | `src/alert.js`, 3 live tests |
 | One-command, repeatable deploy | **Done** | `node scripts/deploy.mjs` |
 | REST API (alert history GET, site acknowledge POST) | **Deployed 2026-10-21.** Unit tests, flow-level tests, 5 mutation checks and 16 HTTP checks on the container all pass. | `src/rest.js`, `test/rest.test.js`, ARCHITECTURE.md §13 |
-| Pi hub flows (edge and cloud_only modes for baseline A, hub/heartbeat, hub/alert, hub/state) | **Built. We did not deploy them and they never ran on a Pi.** 16 tests pass. Mutation checks caught 9 of 10 mutations. | `nodered/pi.flows.json`, `src/hub.js`, `docs/PI_SETUP.md`, ARCHITECTURE.md §14 |
+| Pi hub flows (edge and cloud_only modes for baseline A, hub/heartbeat, hub/alert, hub/state) | **Done, ran on the Pi** (November 2026). The rig build is `hardware/rpi_hub/pi.flows.ait.json`. 16 tests pass. Mutation checks caught 9 of 10 mutations. | `nodered/pi.flows.json`, `hardware/rpi_hub/build_pi_flows.js`, `src/hub.js`, `hardware/README.md`, ARCHITECTURE.md §14 |
 | Automated tests | **73 pass** (45 before REST, 57 before the Pi flows). We mutation-checked the key rules. | `npm test` |
 | External push notifications (LINE) | **Out of scope** (decided 2026-10-21) | history item 14 |
-| Real sensor data, calibration, real thresholds | **Not done.** All data is simulated. | section 5 |
-| Section V benchmarks (sysbench, dd, iPerf3, current draw) | **Not done** | section 5 |
+| Real sensor data, calibration, real thresholds | **Done on the rig.** Sensor height 36.6 cm. Level thresholds 16 and 24 cm. The rate thresholds (1.0 and 2.5 cm/min) are still provisional. The ruler calibration has no raw file in the repo yet. | `hardware/rpi_hub/build_pi_flows.js`, `eval/results/take*.csv` |
+| Section V benchmarks (sysbench, dd, iPerf3, current draw) | **Done** | `eval/results/`, `eval/README.md` |
 | Evidence (screenshots, data, test and mutation output) and the three diagrams saved as files | **Done** 2026-10-21 | `docs/evidence/`, `docs/figures/` |
-| First git commit | **Done locally** (the repo `flash-flood`). We did not push it. | `git log` |
+| Git repository | **Pushed** to GitHub (`silanm/flash-flood`). | `git log` |
 
 ---
 
@@ -126,6 +128,13 @@ These runs and the automated tests are the material for the results section of t
 
 ## 5. What is left
 
+**State on 2026-11-11.** Items 1 to 6 are done: the rig, the Pi flows, the bridge, the benchmarks and the power measurements are in `hardware/` and `eval/`. Item 8 is done except the demo video. These items are still open:
+- The ruler calibration (MAE 0.25 cm in the report) has no raw file in the repo.
+- Item 7: Grafana still uses the default `admin` login, and the dashboard has no viewer-only login.
+- The rate thresholds are provisional. By calculation, with a 90 s slope window and a WARNING threshold of 1.0 cm/min, a steady 1 cm/min rise cannot raise a WARNING within the 90 s target of Objective 2. Nobody ran a 1 cm/min rise.
+
+The items below are the list as it was on 2026-10-21.
+
 **Out of scope:** external push notifications (LINE, email, SMS).
 
 ### Needs the Proxmox admin (only for Section V)
@@ -143,11 +152,11 @@ These runs and the automated tests are the material for the results section of t
 8. Report items: a hand-drawn Fig. 1, the Pi wiring schematic, the demo video, the benchmark discussion and a numeric target for Objective 2.
 
 ### Known limits to state in the report
-- All results come from **simulated** data. The behaviour with a real, noisy sensor is untested.
+- The results in section 3 come from **simulated** data. The rig results (November 2026) are in `eval/results/`.
 - After a restart or a level jump, the rate of rise can wobble by up to about 0.5 cm/min for about a minute (warning threshold 1.0).
 - A new deploy resets the simulator. It can also reset the filter and alert memory.
 - The system has one container with no redundancy. The Grafana login is still the default `admin` account.
-- The Pi flows and the bridge from the Pi to the container **never ran end to end**. We always simulated the Pi by publishing its messages by hand.
+- Until 2026-10-21 we simulated the Pi by publishing its messages by hand. Since November 2026 the Pi flows and the bridge run end to end on the rig.
 - There is no push notification. Someone must look at the dashboard, hear the alarm on the Pi or subscribe to the MQTT alert topics.
 
 ---
